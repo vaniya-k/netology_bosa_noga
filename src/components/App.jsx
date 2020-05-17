@@ -5,6 +5,7 @@ import Footer from './Footer';
 // import About from './About';
 // import Contacts from './Contacts';
 import TopSales from './TopSales';
+import Catalog from './Catalog';
 import MainContainer from './MainContainer';
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
     <Header/>
     <MainContainer>
       <TopSales/>
+      <Catalog/>
     </MainContainer>
     <Footer/>
     </>

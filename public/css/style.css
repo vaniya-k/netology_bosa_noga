@@ -256,9 +256,19 @@ section {
   display: block;
 }
 
+.nav-link {
+  cursor: pointer;
+  color: #727e86;
+};
+
+.nav-link:hover {
+  color: #007bff;
+};
+
 /* Bootstrap */
 .nav-link.active {
   color: #ff0000;
+  cursor: pointer;
 }
 
 h2, .h2 {
@@ -545,9 +555,19 @@ section {
   display: block;
 }
 
+.nav-link {
+  cursor: pointer;
+  color:#727e86;
+}
+
+.nav-link:hover {
+  color: #007bff;
+}
+
 /* Bootstrap */
 .nav-link.active {
   color: #ff0000;
+  cursor: pointer;
 }
 
 h2, .h2 {
