@@ -1,25 +1,24 @@
 import React from 'react';
 
-const CatalogNavBar = ({currCatId, categoriesList, switchCurrCatId}) => {
+const LiItem = ({onLiItemClick, isActive, title}) => {
+  return (
+    <li className="nav-item">
+      <p
+        className={(isActive) ? `nav-link active` : `nav-link`}
+        onClick={onLiItemClick}
+      >
+        {title}
+      </p>
+    </li>
+  )
+};
+
+const CatalogNavBar = ({currCatId, categoriesList, onCurrCatIdSwitch}) => {
   return (
     <ul className="catalog-categories nav justify-content-center">
-      <li className="nav-item">
-          <p
-            className={(currCatId === null) ? `nav-link active` : `nav-link`}
-            onClick={() => switchCurrCatId(null)}
-          >
-            Все
-          </p>
-      </li>
+      <LiItem onLiItemClick={() => onCurrCatIdSwitch(null)} isActive={(currCatId === null) ? true : false} title={`Все`}/>
       {categoriesList.map(category =>
-        <li className="nav-item" key={category.id}>
-          <p
-            className={(category.id === currCatId) ? `nav-link active` : `nav-link`}
-            onClick={() => switchCurrCatId(category.id)}
-          >
-            {category.title}
-          </p>
-        </li>
+        <LiItem onLiItemClick={() => onCurrCatIdSwitch(category.id)} isActive={(category.id === currCatId) ? true : false} title={category.title}/>
       )}
     </ul>
   )
