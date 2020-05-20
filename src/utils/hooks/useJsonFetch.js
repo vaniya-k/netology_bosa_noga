@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-export default function useJsonFetch(url, offset = ``) {
+export default function useJsonFetch(url, appendix = ``) {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
@@ -17,7 +17,7 @@ export default function useJsonFetch(url, offset = ``) {
   }
 
   useEffect(() => {
-    fetch(url + offset)
+    fetch(url + appendix)
       .then(setLoading(true))
       .then(setShowingLoadMore(true))
       .then(response => {
@@ -26,9 +26,19 @@ export default function useJsonFetch(url, offset = ``) {
         }
         throw new Error(response.status);
       })
-      .then(apiReturn => {setData(data.concat(apiReturn)); checkLoadMore(apiReturn); setLoading(false)})
-      .catch(error => {setError(error.message); setLoading(false)})
-  }, [url, offset]);
+      .then(apiReturn => {
+        if(appendix.includes(`q=`)){
+          resetData();
+        }
+        setData(data.concat(apiReturn));
+        checkLoadMore(apiReturn);
+        setLoading(false)
+      })
+      .catch(error => {
+        setError(error.message);
+        setLoading(false)
+      })
+  }, [url, appendix]);
 
   return [loading, data, showingLoadMore, resetData, error];
 };
