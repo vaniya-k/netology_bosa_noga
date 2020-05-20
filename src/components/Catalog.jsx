@@ -6,15 +6,18 @@ import Preloader from './Preloader'
 import ApiData from '../utils/constants';
 import useJsonFetch from '../utils/hooks/useJsonFetch';
 
-const SearchField = ({onSearchConfirm}) => {
+const SearchField = ({onSearchConfirm, searchVal}) => {
+  const inputRef = useRef();
+  
   const handleEnterPress = (evt) => {
     if(evt.keyCode === 13) {
       evt.preventDefault();
-      onSearchConfirm(inputRef.current.value);
+      
+      if(inputRef.current.value !== searchVal) {
+        onSearchConfirm(inputRef.current.value);
+      }
     }
   };
-
-  const inputRef = useRef();
 
   return (
     <form className="catalog-search-form form-inline">
@@ -29,24 +32,42 @@ const SearchField = ({onSearchConfirm}) => {
   )
 };
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//надо вынести управление текущей линкой, включая аппендикс, отдельным useState -- тогда можно порефачить и исправить баг с дозагрузкой при поиске
-
 const Catalog = ({showingSearchField = true}) => {
-  const [categoryUrl, setCategoryUrl] = useState({base: ApiData.ITEMS, appendix: ``}); 
+  const [searchVal, setSearchVal] = useState(``);
+  const [dataUrl, setDataUrl] = useState({base: ApiData.ITEMS, appendix: ``}); 
   const [loadingCategories, categoriesList] = useJsonFetch(ApiData.CATEGORIES);
   const [currCatId, setCurrCatId] = useState(null); 
-  const [loadingItems, rawItemsData, showingLoadMore, resetRawItemsData] = useJsonFetch(categoryUrl.base, categoryUrl.appendix);
+  const [loadingItems, rawItemsData, showingLoadMore, resetRawItemsData] = useJsonFetch(dataUrl.base, dataUrl.appendix);
   const [offsetCount, setOffsetCount] = useState(0);
+
+  const buildDataUrl = (currCatId = null, offsetTriggered = false, searchRequest = ``) => {
+
+    let appendix, url;
+
+    if(offsetTriggered === false && searchRequest === ``) {
+      appendix = ``
+    } else if(searchRequest === ``) {
+      appendix = `offset=${6 * (offsetCount + 1)}`
+      setOffsetCount(offsetCount + 1);
+    } else if(offsetTriggered === false) {
+      appendix = `q=${searchRequest}`
+    } else {
+      appendix = `q=${searchRequest}&offset=${6 * (offsetCount + 1)}`
+      setOffsetCount(offsetCount + 1);
+    }
+
+    if(currCatId === null && appendix === ``) {
+      url = {base: ApiData.ITEMS, appendix: ``}
+    } else if(currCatId === null) {
+      url = {base: ApiData.ITEMS, appendix: `?${appendix}`}
+    } else if(appendix === ``) {
+      url = {base: `${ApiData.ITEMS}?categoryId=${currCatId}`, appendix: ``}
+    } else {
+      url = {base: `${ApiData.ITEMS}?categoryId=${currCatId}`, appendix: `&${appendix}`}
+    }
+
+    return url
+  }
 
   const handleCurrCatIdSwitch = (id) => {
     resetRawItemsData();
@@ -54,31 +75,34 @@ const Catalog = ({showingSearchField = true}) => {
     setOffsetCount(0);
 
     if(id === null) {
-      setCategoryUrl({base: ApiData.ITEMS, appendix: ``});
+      setDataUrl(buildDataUrl(null, false, searchVal));
     } else {
-      setCategoryUrl({base: ApiData.ITEMS + `?categoryId=${id}`, appendix: ``})
+      setDataUrl(buildDataUrl(id, false, searchVal));
     };
   };
 
   const handleLoadMore = () => {
     if(currCatId === null) {
-      setCategoryUrl(({base: ApiData.ITEMS, appendix: `?offset=${6 * (offsetCount + 1)}`}));
+      setDataUrl(buildDataUrl(null, true, searchVal));
     } else {
-      setCategoryUrl(({base: `${ApiData.ITEMS}?categoryId=${currCatId}`, appendix: `&offset=${6 * (offsetCount + 1)}`}));
+      setDataUrl(buildDataUrl(currCatId, true, searchVal));
     }
-
-    setOffsetCount(offsetCount + 1);
   };
 
   const handleSearchRequest = (searchRequest) => {
     if(searchRequest.length === 0) {
-      handleCurrCatIdSwitch(currCatId);
+      resetRawItemsData();
+      setSearchVal(``);
+      setOffsetCount(0);
+      setDataUrl(buildDataUrl(currCatId, false, ``));
     } else if (currCatId === null) {
       resetRawItemsData();
-      setCategoryUrl(({base: ApiData.ITEMS, appendix: `?q=${searchRequest}`}));
+      setSearchVal(searchRequest);
+      setDataUrl(buildDataUrl(null, false, searchRequest));
     } else {
       resetRawItemsData();
-      setCategoryUrl(({base: `${ApiData.ITEMS}?categoryId=${currCatId}`, appendix: `?q=${searchRequest}`}));
+      setSearchVal(searchRequest);
+      setDataUrl(buildDataUrl(currCatId, false, searchRequest));
     }
   };
 
@@ -88,7 +112,7 @@ const Catalog = ({showingSearchField = true}) => {
       {(loadingCategories === false && rawItemsData !== null)
         ?
           <div className="text-center">
-            {showingSearchField && <SearchField onSearchConfirm={handleSearchRequest}/>}
+            {showingSearchField && <SearchField onSearchConfirm={handleSearchRequest} searchVal={searchVal}/>}
             <CatalogNavBar currCatId={currCatId} categoriesList={categoriesList} onCurrCatIdSwitch={handleCurrCatIdSwitch}/>
             <ShopItemsList rawItemsData={rawItemsData}/>
             <button
