@@ -1,5 +1,5 @@
 import React from 'react';
-import prepareShopItemsData from '../adapter';
+import prepareShopItemsData from '../utils/adapter';
 
 const ShopItem = ({title, price, imgUrl}) => {
   return (

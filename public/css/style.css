@@ -281,6 +281,13 @@ h2, .h2 {
   color: #727e86;
 }
 
+.btn-outline-primary:disabled {
+  color: white;
+  background-color: #727e86;
+  border-color: #727e86;
+  opacity: 0.35;
+}
+
 a, a:hover, a:visited, a:active {
   text-decoration: none;
 }

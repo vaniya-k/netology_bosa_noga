@@ -1,8 +1,8 @@
 import React from 'react';
 import ShopItemsList from './ShopItemsList';
 import Preloader from './Preloader';
-import ApiData from '../constants';
-import useJsonFetch from '../hooks/useJsonFetch';
+import ApiData from '../utils/constants';
+import useJsonFetch from '../utils/hooks/useJsonFetch';
 
 const TopSales = () => {
   const [loadingItems, rawItemsData] = useJsonFetch(ApiData.TOP_SALES);

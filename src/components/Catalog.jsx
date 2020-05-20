@@ -3,17 +3,18 @@ import {useState} from 'react';
 import CatalogNavBar from './CatalogNavBar';
 import ShopItemsList from './ShopItemsList';
 import Preloader from './Preloader'
-import ApiData from '../constants';
-import useJsonFetch from '../hooks/useJsonFetch';
+import ApiData from '../utils/constants';
+import useJsonFetch from '../utils/hooks/useJsonFetch';
 
 const Catalog = () => {
   const [categoryUrl, setCategoryUrl] = useState({base: ApiData.ITEMS, offset: ``}); 
   const [loadingCategories, categoriesList] = useJsonFetch(ApiData.CATEGORIES);
   const [currCatId, setCurrCatId] = useState(null); 
-  const [loadingItems, rawItemsData] = useJsonFetch(categoryUrl.base, categoryUrl.offset);
+  const [loadingItems, rawItemsData, showingLoadMore, resetRawItemsData] = useJsonFetch(categoryUrl.base, categoryUrl.offset);
   const [offsetCount, setOffsetCount] = useState(0);
 
   const handleCurrCatIdSwitch = (id) => {
+    resetRawItemsData();
     setCurrCatId(id);
     setOffsetCount(0);
 
@@ -34,9 +35,6 @@ const Catalog = () => {
     setOffsetCount(offsetCount + 1);
   };
 
-//   http://localhost:7070/api/items?offset=6
-// http://localhost:7070/api/items?categoryId=X&offset=6
-
   return (
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
@@ -45,7 +43,13 @@ const Catalog = () => {
           <div className="text-center">
             <CatalogNavBar currCatId={currCatId} categoriesList={categoriesList} onCurrCatIdSwitch={handleCurrCatIdSwitch}/>
             <ShopItemsList rawItemsData={rawItemsData}/>
-            <button className="btn btn-outline-primary" onClick={handleLoadMore} disabled={(loadingItems !== false) ? true : false}>Загрузить ещё</button>
+            <button
+              className="btn btn-outline-primary"
+              onClick={handleLoadMore}
+              disabled={(loadingItems !== false || showingLoadMore === false) ? true : false}
+            >
+              Загрузить еще
+            </button>
           </div>
         :
           <Preloader/>
