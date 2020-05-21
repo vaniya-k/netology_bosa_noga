@@ -1,28 +1,29 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
-const Header = () => {
+const Header = ({currLink}) => {
   return (
     <header className="container">
       <div className="row">
         <div className="col">
           <nav className="navbar navbar-expand-sm navbar-light bg-light">
-            <a className="navbar-brand" href="/">
+            <Link className="navbar-brand" to="/">
               <img src="./img/header-logo.png" alt="Bosa Noga"></img>
-            </a>
+            </Link>
 
             <div className="collapase navbar-collapse" id="navbarMain">
               <ul className="navbar-nav mr-auto">
-                <li className="nav-item active">
-                  <a className="nav-link" href="./">Главная</a>
+                <li className={`nav-item ${currLink === `/` && `active`}`}>
+                  <Link className="nav-link" to="/">Главная</Link>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="./catalog.html">Каталог</a>
+                <li className={`nav-item ${currLink === `/catalog` && `active`}`}>
+                  <Link className="nav-link" to="/catalog">Каталог</Link>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="./about.html">О магазине</a>
+                <li className={`nav-item ${currLink === `/about` && `active`}`}>
+                  <Link className="nav-link" to="/about">О магазине</Link>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="./contacts.html">Контакты</a>
+                <li className={`nav-item ${currLink === `/contacts` && `active`}`}>
+                  <Link className="nav-link" to="/contacts">Контакты</Link>
                 </li>
               </ul>
 

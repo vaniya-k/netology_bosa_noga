@@ -32,7 +32,7 @@ const SearchField = ({onSearchConfirm, searchVal}) => {
   )
 };
 
-const Catalog = ({showingSearchField = true}) => {
+const Catalog = ({showingSearchField = false}) => {
   const [searchVal, setSearchVal] = useState(``);
   const [dataUrl, setDataUrl] = useState({base: ApiData.ITEMS, appendix: ``}); 
   const [loadingCategories, categoriesList] = useJsonFetch(ApiData.CATEGORIES);
@@ -70,15 +70,17 @@ const Catalog = ({showingSearchField = true}) => {
   }
 
   const handleCurrCatIdSwitch = (id) => {
-    resetRawItemsData();
-    setCurrCatId(id);
-    setOffsetCount(0);
+    if(id !== currCatId) {
+      resetRawItemsData();
+      setCurrCatId(id);
+      setOffsetCount(0);
 
-    if(id === null) {
-      setDataUrl(buildDataUrl(null, false, searchVal));
-    } else {
-      setDataUrl(buildDataUrl(id, false, searchVal));
-    };
+      if(id === null) {
+        setDataUrl(buildDataUrl(null, false, searchVal));
+      } else {
+        setDataUrl(buildDataUrl(id, false, searchVal));
+      };
+    }
   };
 
   const handleLoadMore = () => {
