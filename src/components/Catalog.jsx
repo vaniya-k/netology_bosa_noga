@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState, useRef, useEffect} from 'react';
 import CatalogNavBar from './CatalogNavBar';
-import ShopItemsList from './ShopItemsList';
+import ItemsList from './ItemsList';
 import Preloader from './Preloader'
 import ApiData from '../utils/constants';
 import useJsonFetch from '../utils/hooks/useJsonFetch';
@@ -16,7 +16,7 @@ const CatalogSearchField = ({onSearchConfirm, catalogSearchFieldVal, incomingSea
       
       if(inputRef.current.value !== catalogSearchFieldVal) {
         onSearchConfirm(inputRef.current.value);
-      }
+      };
     }
   };
 
@@ -138,7 +138,7 @@ const Catalog = ({showingSearchField = false}) => {
               </SearchContext.Consumer>
             }
             <CatalogNavBar currCatId={currCatId} categoriesList={categoriesList} onCurrCatIdSwitch={handleCurrCatIdSwitch}/>
-            <ShopItemsList rawItemsData={rawItemsData}/>
+            <ItemsList rawItemsData={rawItemsData}/>
             <button
               className="btn btn-outline-primary"
               onClick={handleLoadMore}

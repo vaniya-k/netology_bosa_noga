@@ -5,6 +5,7 @@ import Contacts from './Contacts';
 import TopSales from './TopSales';
 import Catalog from './Catalog';
 import PageContainer from './PageContainer';
+import ItemDetails from './ItemDetails';
 import {Router, Route, Switch} from 'react-router-dom';
 import history from '../utils/history.js';
 import SearchContextProvider from '../utils/contexts/SearchContextProvider';
@@ -35,6 +36,17 @@ const App = () => {
               <Catalog showingSearchField={true}/>
             </PageContainer>
           </Route>
+          <Route
+            exact path="/items/:routeId"
+            render={(props) => {
+                return (
+                  <PageContainer>
+                    <ItemDetails id={props.match.params.routeId}/>
+                  </PageContainer>
+                )
+              }
+            }
+          />
           <Route>
             <PageContainer>
               <NotFound/>

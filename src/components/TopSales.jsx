@@ -1,5 +1,5 @@
 import React from 'react';
-import ShopItemsList from './ShopItemsList';
+import ItemsList from './ItemsList';
 import Preloader from './Preloader';
 import ApiData from '../utils/constants';
 import useJsonFetch from '../utils/hooks/useJsonFetch';
@@ -10,7 +10,7 @@ const TopSales = () => {
   return (
     <section className="top-sales">
       <h2 className="text-center">Хиты продаж!</h2>
-      {(loadingItems === false) ? <ShopItemsList rawItemsData={rawItemsData}/> : <Preloader/>}
+      {(loadingItems === false) ? <ItemsList rawItemsData={rawItemsData}/> : <Preloader/>}
     </section>
   )
 };
