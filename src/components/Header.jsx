@@ -51,7 +51,7 @@ const Header = ({currLink}) => {
         <div className="col">
           <nav className="navbar navbar-expand-sm navbar-light bg-light">
             <Link className="navbar-brand" to="/">
-              <img src="./img/header-logo.png" alt="Bosa Noga"></img>
+              <img src="/img/header-logo.png" alt="Bosa Noga"></img>
             </Link>
 
             <div className="collapase navbar-collapse" id="navbarMain">
