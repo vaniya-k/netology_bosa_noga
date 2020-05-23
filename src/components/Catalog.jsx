@@ -6,7 +6,7 @@ import Preloader from './Preloader'
 import ApiData from '../utils/constants';
 import useJsonFetch from '../utils/hooks/useJsonFetch';
 
-const SearchField = ({onSearchConfirm, searchVal, incomingSearchRequest}) => {
+const CatalogSearchField = ({onSearchConfirm, searchVal, incomingSearchRequest}) => {
   const inputRef = useRef();
   
   const handleEnterPress = (evt) => {
@@ -121,7 +121,7 @@ const Catalog = ({showingSearchField = false, incomingSearchRequest = ``}) => {
       {(loadingCategories === false && rawItemsData !== null)
         ?
           <div className="text-center">
-            {showingSearchField && <SearchField onSearchConfirm={handleSearchRequest} searchVal={searchVal} incomingSearchRequest={incomingSearchRequest}/>}
+            {showingSearchField && <CatalogSearchField onSearchConfirm={handleSearchRequest} searchVal={searchVal} incomingSearchRequest={incomingSearchRequest}/>}
             <CatalogNavBar currCatId={currCatId} categoriesList={categoriesList} onCurrCatIdSwitch={handleCurrCatIdSwitch}/>
             <ShopItemsList rawItemsData={rawItemsData}/>
             <button

@@ -1,5 +1,48 @@
-import React from 'react';
+import React, {useState, useRef} from 'react';
 import {Link} from 'react-router-dom';
+import SearchContext from '../utils/contexts/SearchContext';
+import history from '../utils/history';
+
+const HeaderControls = ({passSearchVal}) => {
+  const [showingSearchField, setShowingSearchField] = useState(false);
+  const inputRef = useRef();
+
+  const processSearchField = () => {
+    if(inputRef.current.value === ``) {
+      setShowingSearchField(!showingSearchField)
+    } else {
+      passSearchVal(inputRef.current.value);
+      setShowingSearchField(!showingSearchField);
+      inputRef.current.value = ``;
+      if(history.location.pathname !== `/catalog`) {
+        history.push(`/catalog`)
+      }
+    }
+  };
+
+  const handleEnterPress = (evt) => {
+    if(evt.keyCode === 13) {
+      evt.preventDefault();
+      processSearchField();
+    }
+  };
+
+  return (
+    <div>
+      <div className="header-controls-pics">
+        <div data-id="search-expander" className="header-controls-pic header-controls-search" onClick={processSearchField}></div>
+        <div className="header-controls-pic header-controls-cart">
+          <div className="header-controls-cart-full">1</div>
+          <div className="header-controls-cart-menu"></div>
+        </div>
+      </div>
+
+      <form data-id="search-form" className={`header-controls-search-form form-inline ${showingSearchField === false && `invisible`}`}>
+        <input className="form-control" placeholder="Поиск" ref={inputRef} onKeyDown={handleEnterPress}></input>
+      </form>
+    </div>
+  )
+};
 
 const Header = ({currLink}) => {
   return (
@@ -27,19 +70,11 @@ const Header = ({currLink}) => {
                 </li>
               </ul>
 
-              <div>
-                <div className="header-controls-pics">
-                  <div data-id="search-expander" className="header-controls-pic header-controls-search"></div>
-                  <div className="header-controls-pic header-controls-cart">
-                    <div className="header-controls-cart-full">1</div>
-                    <div className="header-controls-cart-menu"></div>
-                  </div>
-                </div>
-
-                <form data-id="search-form" className="header-controls-search-form form-inline invisible">
-                  <input className="form-control" placeholder="Поиск"></input>
-                </form>
-              </div>
+              <SearchContext.Consumer>
+                {context => (
+                  <HeaderControls passSearchVal={context.setSearchVal}/>
+                )}
+              </SearchContext.Consumer>
             </div>
           </nav>
         </div>

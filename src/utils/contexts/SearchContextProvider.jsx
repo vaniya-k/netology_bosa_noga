@@ -3,7 +3,7 @@ import {useState} from 'react';
 import SearchContext from './SearchContext';
 
 const SearchContextProvider = (props) => {
-  const [searchVal, setSearchVal] = useState(`белый`);
+  const [searchVal, setSearchVal] = useState(``);
 
   return (
     <SearchContext.Provider value={{ 
