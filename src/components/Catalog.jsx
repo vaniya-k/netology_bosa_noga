@@ -1,12 +1,12 @@
 import React from 'react';
-import {useState, useRef} from 'react';
+import {useState, useRef, useEffect} from 'react';
 import CatalogNavBar from './CatalogNavBar';
 import ShopItemsList from './ShopItemsList';
 import Preloader from './Preloader'
 import ApiData from '../utils/constants';
 import useJsonFetch from '../utils/hooks/useJsonFetch';
 
-const SearchField = ({onSearchConfirm, searchVal}) => {
+const SearchField = ({onSearchConfirm, searchVal, incomingSearchRequest}) => {
   const inputRef = useRef();
   
   const handleEnterPress = (evt) => {
@@ -18,6 +18,13 @@ const SearchField = ({onSearchConfirm, searchVal}) => {
       }
     }
   };
+
+  useEffect(() => {
+    if(incomingSearchRequest !== `` && incomingSearchRequest !== searchVal) {
+      inputRef.current.value = incomingSearchRequest;
+      onSearchConfirm(inputRef.current.value);
+    }
+  }, [incomingSearchRequest]);
 
   return (
     <form className="catalog-search-form form-inline">
@@ -32,7 +39,7 @@ const SearchField = ({onSearchConfirm, searchVal}) => {
   )
 };
 
-const Catalog = ({showingSearchField = false}) => {
+const Catalog = ({showingSearchField = false, incomingSearchRequest = ``}) => {
   const [searchVal, setSearchVal] = useState(``);
   const [dataUrl, setDataUrl] = useState({base: ApiData.ITEMS, appendix: ``}); 
   const [loadingCategories, categoriesList] = useJsonFetch(ApiData.CATEGORIES);
@@ -67,7 +74,7 @@ const Catalog = ({showingSearchField = false}) => {
     }
 
     return url
-  }
+  };
 
   const handleCurrCatIdSwitch = (id) => {
     if(id !== currCatId) {
@@ -114,7 +121,7 @@ const Catalog = ({showingSearchField = false}) => {
       {(loadingCategories === false && rawItemsData !== null)
         ?
           <div className="text-center">
-            {showingSearchField && <SearchField onSearchConfirm={handleSearchRequest} searchVal={searchVal}/>}
+            {showingSearchField && <SearchField onSearchConfirm={handleSearchRequest} searchVal={searchVal} incomingSearchRequest={incomingSearchRequest}/>}
             <CatalogNavBar currCatId={currCatId} categoriesList={categoriesList} onCurrCatIdSwitch={handleCurrCatIdSwitch}/>
             <ShopItemsList rawItemsData={rawItemsData}/>
             <button
