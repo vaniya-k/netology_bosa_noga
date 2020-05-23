@@ -8,8 +8,8 @@ const PageContainer = (props) => {
     <>
       <Header currLink={props.currLink}/>
       <main className="container">
-          <Banner/>
-          {props.children}
+        <Banner/>
+        {props.children}
       </main>
       <Footer/>
     </>

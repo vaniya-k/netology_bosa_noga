@@ -7,7 +7,7 @@ const HeaderControls = ({passSearchVal}) => {
   const [showingSearchField, setShowingSearchField] = useState(false);
   const inputRef = useRef();
 
-  const processSearchField = () => {
+  const handleSearchFieldToggle = () => {
     if(inputRef.current.value === ``) {
       setShowingSearchField(!showingSearchField)
     } else {
@@ -23,14 +23,14 @@ const HeaderControls = ({passSearchVal}) => {
   const handleEnterPress = (evt) => {
     if(evt.keyCode === 13) {
       evt.preventDefault();
-      processSearchField();
+      handleSearchFieldToggle();
     }
   };
 
   return (
     <div>
       <div className="header-controls-pics">
-        <div data-id="search-expander" className="header-controls-pic header-controls-search" onClick={processSearchField}></div>
+        <div data-id="search-expander" className="header-controls-pic header-controls-search" onClick={handleSearchFieldToggle}></div>
         <div className="header-controls-pic header-controls-cart">
           <div className="header-controls-cart-full">1</div>
           <div className="header-controls-cart-menu"></div>

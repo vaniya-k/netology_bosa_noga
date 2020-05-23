@@ -8,7 +8,6 @@ import PageContainer from './PageContainer';
 import {Router, Route, Switch} from 'react-router-dom';
 import history from '../utils/history.js';
 import SearchContextProvider from '../utils/contexts/SearchContextProvider';
-import SearchContext from '../utils/contexts/SearchContext';
 
 const App = () => {
   return (
@@ -33,11 +32,7 @@ const App = () => {
           </Route>
           <Route exact path="/catalog">
             <PageContainer currLink={`/catalog`}>
-              <SearchContext.Consumer>
-                {context => (
-                  <Catalog showingSearchField={true} incomingSearchRequest={context.searchVal}/>
-                )}
-              </SearchContext.Consumer>
+              <Catalog showingSearchField={true}/>
             </PageContainer>
           </Route>
           <Route>

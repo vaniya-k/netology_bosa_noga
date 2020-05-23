@@ -5,24 +5,28 @@ import ShopItemsList from './ShopItemsList';
 import Preloader from './Preloader'
 import ApiData from '../utils/constants';
 import useJsonFetch from '../utils/hooks/useJsonFetch';
+import SearchContext from '../utils/contexts/SearchContext';
 
-const CatalogSearchField = ({onSearchConfirm, searchVal, incomingSearchRequest}) => {
+const CatalogSearchField = ({onSearchConfirm, catalogSearchFieldVal, incomingSearchRequest, resetIncomingSearchRequest}) => {
   const inputRef = useRef();
   
   const handleEnterPress = (evt) => {
     if(evt.keyCode === 13) {
       evt.preventDefault();
       
-      if(inputRef.current.value !== searchVal) {
+      if(inputRef.current.value !== catalogSearchFieldVal) {
         onSearchConfirm(inputRef.current.value);
       }
     }
   };
 
   useEffect(() => {
-    if(incomingSearchRequest !== `` && incomingSearchRequest !== searchVal) {
+    if (incomingSearchRequest === catalogSearchFieldVal) {
+      resetIncomingSearchRequest();
+    } else if(incomingSearchRequest !== `` && incomingSearchRequest !== catalogSearchFieldVal) {
       inputRef.current.value = incomingSearchRequest;
       onSearchConfirm(inputRef.current.value);
+      resetIncomingSearchRequest();
     }
   }, [incomingSearchRequest]);
 
@@ -39,7 +43,7 @@ const CatalogSearchField = ({onSearchConfirm, searchVal, incomingSearchRequest})
   )
 };
 
-const Catalog = ({showingSearchField = false, incomingSearchRequest = ``}) => {
+const Catalog = ({showingSearchField = false}) => {
   const [searchVal, setSearchVal] = useState(``);
   const [dataUrl, setDataUrl] = useState({base: ApiData.ITEMS, appendix: ``}); 
   const [loadingCategories, categoriesList] = useJsonFetch(ApiData.CATEGORIES);
@@ -121,7 +125,18 @@ const Catalog = ({showingSearchField = false, incomingSearchRequest = ``}) => {
       {(loadingCategories === false && rawItemsData !== null)
         ?
           <div className="text-center">
-            {showingSearchField && <CatalogSearchField onSearchConfirm={handleSearchRequest} searchVal={searchVal} incomingSearchRequest={incomingSearchRequest}/>}
+            {
+              showingSearchField && <SearchContext.Consumer>
+                {
+                  context => (<CatalogSearchField
+                    onSearchConfirm={handleSearchRequest}
+                    catalogSearchFieldVal={searchVal}
+                    incomingSearchRequest={context.searchVal}
+                    resetIncomingSearchRequest={context.resetSearchVal}
+                  />)
+                }
+              </SearchContext.Consumer>
+            }
             <CatalogNavBar currCatId={currCatId} categoriesList={categoriesList} onCurrCatIdSwitch={handleCurrCatIdSwitch}/>
             <ShopItemsList rawItemsData={rawItemsData}/>
             <button
@@ -140,6 +155,3 @@ const Catalog = ({showingSearchField = false, incomingSearchRequest = ``}) => {
 };
 
 export default Catalog;
-
-
-

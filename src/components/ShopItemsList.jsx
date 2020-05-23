@@ -19,9 +19,7 @@ const ShopItem = ({title, price, imgUrl}) => {
 const ShopItemsList = ({rawItemsData}) => {
   return (
     <div className="row">
-      {prepareShopItemsData(rawItemsData).map(
-        item => <ShopItem key={item.id} title={item.title} price={item.price} imgUrl={item.imgUrl}/>
-      )}
+      {prepareShopItemsData(rawItemsData).map(item => <ShopItem key={item.id} title={item.title} price={item.price} imgUrl={item.imgUrl}/>)}
     </div>
   )
 };
