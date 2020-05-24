@@ -3,6 +3,7 @@ import prepareItemDetailsData from '../utils/adapters/prepareItemDetailsData';
 import Preloader from './Preloader';
 import useJsonFetch from '../utils/hooks/useJsonFetch';
 import ApiData from '../utils/constants';
+import SearchAndCartContext from '../utils/contexts/SearchAndCartContext';
 
 const writeToLocalStorage = (id, size, quantity) => {
   const passedKey = `${id}#${size}`;
@@ -16,7 +17,7 @@ const writeToLocalStorage = (id, size, quantity) => {
   };
 };
 
-const ItemDetailsLoaded = ({details}) => {
+const ItemDetailsLoaded = ({details, setCartItemsCount}) => {
   const {id, title, imgUrl, sku, price, color, season, reason, manufacturer, material, sizes} = prepareItemDetailsData(details);
   const [cartQuantity, setCartQuantity] = useState(1);
   const [cartSize, setCartSize] = useState(``);
@@ -33,6 +34,7 @@ const ItemDetailsLoaded = ({details}) => {
 
   const handleToCart = () => {
     writeToLocalStorage(id, cartSize, cartQuantity);
+    setCartItemsCount(localStorage.length);
   };
 
   const handleCartQuantityDown = () => {
@@ -118,7 +120,14 @@ const ItemDetails = ({id}) => {
 
   return (
     <section className="catalog-item">
-      {(loadingDetails === false) ? <ItemDetailsLoaded details={details[0]}/> : <Preloader/>}
+      {
+        (loadingDetails === false)
+        ? 
+          <SearchAndCartContext.Consumer>
+            {context => <ItemDetailsLoaded details={details[0]} setCartItemsCount={context.setCartItemsCount}/>}
+          </SearchAndCartContext.Consumer>
+        : <Preloader/>
+      }
     </section>
   )
 };

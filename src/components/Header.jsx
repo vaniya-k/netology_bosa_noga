@@ -1,17 +1,24 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import SearchContext from '../utils/contexts/SearchContext';
+import SearchAndCartContext from '../utils/contexts/SearchAndCartContext';
 import history from '../utils/history';
 
-const HeaderControls = ({passSearchVal}) => {
+const HeaderControls = ({setIncomingSearchRequest, cartItemsCount}) => {
   const [showingSearchField, setShowingSearchField] = useState(false);
+  const [cartIconNumber, setCartIconNumber] = useState(0);
   const inputRef = useRef();
+
+  useEffect(() => {
+    if(localStorage.length !== cartIconNumber) {
+      setCartIconNumber(localStorage.length)
+    }
+  },[cartItemsCount])
 
   const handleSearchFieldToggle = () => {
     if(inputRef.current.value === ``) {
       setShowingSearchField(!showingSearchField)
     } else {
-      passSearchVal(inputRef.current.value);
+      setIncomingSearchRequest(inputRef.current.value);
       setShowingSearchField(!showingSearchField);
       inputRef.current.value = ``;
       if(history.location.pathname !== `/catalog`) {
@@ -32,7 +39,7 @@ const HeaderControls = ({passSearchVal}) => {
       <div className="header-controls-pics">
         <div data-id="search-expander" className="header-controls-pic header-controls-search" onClick={handleSearchFieldToggle}></div>
         <div className="header-controls-pic header-controls-cart">
-          <div className="header-controls-cart-full">1</div>
+          {cartIconNumber !== 0 && <div className="header-controls-cart-full">{cartIconNumber}</div>}
           <div className="header-controls-cart-menu"></div>
         </div>
       </div>
@@ -70,11 +77,11 @@ const Header = ({currLink}) => {
                 </li>
               </ul>
 
-              <SearchContext.Consumer>
+              <SearchAndCartContext.Consumer>
                 {context => (
-                  <HeaderControls passSearchVal={context.setSearchVal}/>
+                  <HeaderControls cartItemsCount={context.cartItemsCount} setIncomingSearchRequest={context.setIncomingSearchRequest}/>
                 )}
-              </SearchContext.Consumer>
+              </SearchAndCartContext.Consumer>
             </div>
           </nav>
         </div>

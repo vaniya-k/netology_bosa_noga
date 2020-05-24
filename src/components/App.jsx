@@ -8,11 +8,11 @@ import PageContainer from './PageContainer';
 import ItemDetails from './ItemDetails';
 import {Router, Route, Switch} from 'react-router-dom';
 import history from '../utils/history.js';
-import SearchContextProvider from '../utils/contexts/SearchContextProvider';
+import SearchAndCartContextProvider from '../utils/contexts/SearchAndCartContextProvider';
 
 const App = () => {
   return (
-    <SearchContextProvider>
+    <SearchAndCartContextProvider>
       <Router history={history}>
         <Switch>
           <Route exact path="/">
@@ -54,7 +54,7 @@ const App = () => {
           </Route>
         </Switch>
       </Router>
-    </SearchContextProvider>
+    </SearchAndCartContextProvider>
   );
 };
 

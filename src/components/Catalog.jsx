@@ -5,7 +5,7 @@ import ItemsList from './ItemsList';
 import Preloader from './Preloader'
 import ApiData from '../utils/constants';
 import useJsonFetch from '../utils/hooks/useJsonFetch';
-import SearchContext from '../utils/contexts/SearchContext';
+import SearchAndCartContext from '../utils/contexts/SearchAndCartContext';
 
 const CatalogSearchField = ({onSearchConfirm, catalogSearchFieldVal, incomingSearchRequest, resetIncomingSearchRequest}) => {
   const inputRef = useRef();
@@ -102,7 +102,7 @@ const Catalog = ({showingSearchField = false}) => {
     }
   };
 
-  const handleSearchRequest = (searchRequest) => {
+  const handleSearchConfirm = (searchRequest) => {
     if(searchRequest.length === 0) {
       resetRawItemsData();
       setSearchVal(``);
@@ -126,16 +126,16 @@ const Catalog = ({showingSearchField = false}) => {
         ?
           <div className="text-center">
             {
-              showingSearchField && <SearchContext.Consumer>
+              showingSearchField && <SearchAndCartContext.Consumer>
                 {
                   context => (<CatalogSearchField
-                    onSearchConfirm={handleSearchRequest}
+                    onSearchConfirm={handleSearchConfirm}
                     catalogSearchFieldVal={searchVal}
-                    incomingSearchRequest={context.searchVal}
-                    resetIncomingSearchRequest={context.resetSearchVal}
+                    incomingSearchRequest={context.incomingSearchRequest}
+                    resetIncomingSearchRequest={context.resetIncomingSearchRequest}
                   />)
                 }
-              </SearchContext.Consumer>
+              </SearchAndCartContext.Consumer>
             }
             <CatalogNavBar currCatId={currCatId} categoriesList={categoriesList} onCurrCatIdSwitch={handleCurrCatIdSwitch}/>
             <ItemsList rawItemsData={rawItemsData}/>
