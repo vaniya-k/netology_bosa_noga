@@ -40,6 +40,7 @@ const ItemDetailsLoaded = ({details, setCartItemsCount}) => {
   };
 
   const handleCartQuantityUp = () => {
+    if(cartQuantity !== 10)
       setCartQuantity(cartQuantity + 1);
   };
 
