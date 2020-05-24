@@ -1,11 +1,51 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import prepareItemDetailsData from '../utils/adapters/prepareItemDetailsData';
 import Preloader from './Preloader';
 import useJsonFetch from '../utils/hooks/useJsonFetch';
 import ApiData from '../utils/constants';
 
+const writeToLocalStorage = (id, size, quantity) => {
+  const passedKey = `${id}#${size}`;
+
+  if(!localStorage.hasOwnProperty(passedKey)) {
+    localStorage.setItem(passedKey, quantity)
+  } else {
+    const oldQuantity = localStorage.getItem(passedKey);
+    localStorage.removeItem(passedKey);
+    localStorage.setItem(passedKey, (Number(quantity) + Number(oldQuantity)));
+  };
+};
+
 const ItemDetailsLoaded = ({details}) => {
-  const {title, imgUrl, sku, price, color, season, reason, manufacturer, material, sizes} = prepareItemDetailsData(details);
+  const {id, title, imgUrl, sku, price, color, season, reason, manufacturer, material, sizes} = prepareItemDetailsData(details);
+  const [cartQuantity, setCartQuantity] = useState(1);
+  const [cartSize, setCartSize] = useState(``);
+
+  useEffect(() => {
+    if(sizes.length !== 0) {
+      setCartSize(sizes[0])
+    }
+  },[]);
+  
+  const handleCartSizeClick = (size) => {
+    setCartSize(size)
+  };
+
+  const handleToCart = () => {
+    writeToLocalStorage(id, cartSize, cartQuantity);
+  };
+
+  const handleCartQuantityDown = () => {
+    if(cartQuantity !== 1) {
+      const newVal = cartQuantity - 1
+      setCartQuantity(newVal);
+    }
+  };
+
+  const handleCartQuantityUp = () => {
+      const newVal = cartQuantity + 1
+      setCartQuantity(newVal);
+  };
 
   return (
     <>
@@ -43,16 +83,30 @@ const ItemDetailsLoaded = ({details}) => {
               </tr>
             </tbody>
           </table>
-          <div className="text-center">
-            <p>Размеры в наличии: {sizes.map(size => <span key={size} className="catalog-item-size">{size}</span>)}</p>
-            <p>Количество: <span className="btn-group btn-group-sm pl-2">
-              <button className="btn btn-secondary">-</button>
-              <span className="btn btn-outline-primary">1</span>
-              <button className="btn btn-secondary">+</button>
-            </span>
-            </p>
-          </div>
-          {sizes.length !== 0 && <button className="btn btn-danger btn-block btn-lg">{`В корзину! 1 шт. за ${price} руб.`}</button>}
+          {
+            (sizes.length === 0)
+            ?
+              <div className="text-center">
+                <p>На данный момент нет в наличии</p>
+              </div>
+            : 
+              <>
+                <div className="text-center">
+                  <p>Размеры в наличии:&nbsp;&nbsp;
+                    {sizes.map(size =>
+                      <span key={size} onClick={() => handleCartSizeClick(size)} className={`catalog-item-size ${cartSize === size && `selected`}`}>{size}</span>
+                    )}
+                  </p>
+                  <p>Количество: <span className="btn-group btn-group-sm pl-2">
+                    <button className="btn btn-secondary" onClick={handleCartQuantityDown}>-</button>
+                    <span className="btn">{cartQuantity}</span>
+                    <button className="btn btn-secondary"  onClick={handleCartQuantityUp}>+</button>
+                  </span>
+                  </p>
+                </div>
+                <button onClick={handleToCart} className="btn btn-danger btn-block btn-lg">{`В корзину! ${cartQuantity} шт. за ${cartQuantity * price} руб.`}</button>
+              </>
+          }
         </div>
       </div>
     </>
