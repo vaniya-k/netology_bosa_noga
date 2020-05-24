@@ -4,6 +4,7 @@ import About from './About';
 import Contacts from './Contacts';
 import TopSales from './TopSales';
 import Catalog from './Catalog';
+import Cart from './Cart';
 import PageContainer from './PageContainer';
 import ItemDetails from './ItemDetails';
 import {Router, Route, Switch} from 'react-router-dom';
@@ -34,6 +35,11 @@ const App = () => {
           <Route exact path="/catalog">
             <PageContainer currLink={`/catalog`}>
               <Catalog showingSearchField={true}/>
+            </PageContainer>
+          </Route>
+          <Route exact path="/cart">
+            <PageContainer>
+              <Cart/>
             </PageContainer>
           </Route>
           <Route

@@ -38,7 +38,7 @@ const HeaderControls = ({setIncomingSearchRequest, cartItemsCount}) => {
     <div>
       <div className="header-controls-pics">
         <div data-id="search-expander" className="header-controls-pic header-controls-search" onClick={handleSearchFieldToggle}></div>
-        <div className="header-controls-pic header-controls-cart">
+        <div onClick={() => history.push(`/cart`)} className="header-controls-pic header-controls-cart">
           {cartIconNumber !== 0 && <div className="header-controls-cart-full">{cartIconNumber}</div>}
           <div className="header-controls-cart-menu"></div>
         </div>

@@ -23,8 +23,9 @@ export default function useJsonFetch(url, appendix = ``) {
       .then(response => {
         if(response.ok){
           return response.json()
+        } else {
+          throw new Error(response.status);
         }
-        throw new Error(response.status);
       })
       .then(apiReturn => {
         if(appendix.includes(`q=`)){

@@ -10,28 +10,13 @@ const SearchAndCartContextProvider = (props) => {
     setIncomingSearchRequest(``)
   };
 
-  const resetCartItemsCount = () => {
-    setCartItemsCount(0);
-  };
-
-  const increaseCartItemsCount = () => {
-    setCartItemsCount(cartItemsCount + 1);
-  }
-
-  const decreaseCartItemsCount = () => {
-    setCartItemsCount(cartItemsCount - 1);
-  }
-
   return (
     <SearchAndCartContext.Provider value={{ 
       incomingSearchRequest,
       setIncomingSearchRequest,
       resetIncomingSearchRequest,
       cartItemsCount,
-      setCartItemsCount,
-      increaseCartItemsCount,
-      decreaseCartItemsCount,
-      resetCartItemsCount
+      setCartItemsCount
     }}>
       {props.children}
     </SearchAndCartContext.Provider>

@@ -5,48 +5,42 @@ import useJsonFetch from '../utils/hooks/useJsonFetch';
 import ApiData from '../utils/constants';
 import SearchAndCartContext from '../utils/contexts/SearchAndCartContext';
 
-const writeToLocalStorage = (id, size, quantity) => {
-  const passedKey = `${id}#${size}`;
-
-  if(!localStorage.hasOwnProperty(passedKey)) {
-    localStorage.setItem(passedKey, quantity)
-  } else {
-    const oldQuantity = localStorage.getItem(passedKey);
-    localStorage.removeItem(passedKey);
-    localStorage.setItem(passedKey, (Number(quantity) + Number(oldQuantity)));
-  };
-};
-
 const ItemDetailsLoaded = ({details, setCartItemsCount}) => {
   const {id, title, imgUrl, sku, price, color, season, reason, manufacturer, material, sizes} = prepareItemDetailsData(details);
   const [cartQuantity, setCartQuantity] = useState(1);
   const [cartSize, setCartSize] = useState(``);
-
+  
   useEffect(() => {
     if(sizes.length !== 0) {
       setCartSize(sizes[0])
     }
   },[]);
+
+  const writeToLocalStorage = (id, title, size, price, quantity) => {
+    const passedKey = `${id}#${title}#${size}#${price}`;
   
-  const handleCartSizeClick = (size) => {
-    setCartSize(size)
+    if(!localStorage.hasOwnProperty(passedKey)) {
+      localStorage.setItem(passedKey, quantity)
+    } else {
+      const oldQuantity = localStorage.getItem(passedKey);
+      localStorage.removeItem(passedKey);
+      localStorage.setItem(passedKey, (Number(quantity) + Number(oldQuantity)));
+    };
   };
 
   const handleToCart = () => {
-    writeToLocalStorage(id, cartSize, cartQuantity);
+    writeToLocalStorage(id, title, cartSize, price, cartQuantity);
     setCartItemsCount(localStorage.length);
   };
 
   const handleCartQuantityDown = () => {
     if(cartQuantity !== 1) {
-      const newVal = cartQuantity - 1
-      setCartQuantity(newVal);
+      setCartQuantity(cartQuantity - 1);
     }
   };
 
   const handleCartQuantityUp = () => {
-      const newVal = cartQuantity + 1
-      setCartQuantity(newVal);
+      setCartQuantity(cartQuantity + 1);
   };
 
   return (
@@ -96,7 +90,7 @@ const ItemDetailsLoaded = ({details, setCartItemsCount}) => {
                 <div className="text-center">
                   <p>Размеры в наличии:&nbsp;&nbsp;
                     {sizes.map(size =>
-                      <span key={size} onClick={() => handleCartSizeClick(size)} className={`catalog-item-size ${cartSize === size && `selected`}`}>{size}</span>
+                      <span key={size} onClick={() => setCartSize(size)} className={`catalog-item-size ${cartSize === size && `selected`}`}>{size}</span>
                     )}
                   </p>
                   <p>Количество: <span className="btn-group btn-group-sm pl-2">
