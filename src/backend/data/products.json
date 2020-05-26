@@ -330,33 +330,6 @@
         ]
     },
     {
-        "id": 32,
-        "category": 14,
-        "title": "Кеды от Оксимирона",
-        "images": [
-            "https://sneakerhead.ru/image/cache/data/simpleupload/d86d0715e05df3af5463587a49e5f14cac529dd6-1410x940.jpg",
-            "https://sneakerhead.ru/image/cache/data/simpleupload/8ab50fa032d448a4588efd2278ad6a8dd9f1f43e-1410x940.jpg"
-        ],
-        "sku": "1000012",
-        "manufacturer": "Reebok",
-        "color": "Серый",
-        "material": "Замша",
-        "reason": "Спорт",
-        "season": "Лето",
-        "heelSize": "2 см.",
-        "price":23000,
-        "sizes": [
-            {
-                "size": "12 US",
-                "avalible": true
-            },
-            {
-                "size": "14 US",
-                "avalible": false
-            }
-        ]
-    },
-    {
         "id": 33,
         "category": 13,
         "title": "Знаменитые лабутэны",
@@ -466,32 +439,6 @@
         ]
     },
     {
-        "id": 37,
-        "category": 13,
-        "title": "Кроссовки с мехом",
-        "images": [
-            "http://www.sandrospizza.it/images/dfsdjk/Fashion-New-Balance-ML574TA-Eskimo-Series-Wool-brown-Men-Winter-Suede-shoes-68193050_24247.jpg"
-        ],
-        "sku": "1000017",
-        "manufacturer": "New Balance",
-        "color": "Темно-салатовый",
-        "material": "Замша",
-        "reason": "Спорт",
-        "season": "Лето",
-        "heelSize": "2 см.",
-        "price": 4000,
-        "sizes": [
-            {
-                "size": "14 US",
-                "avalible": true
-            },
-            {
-                "size": "18 US",
-                "avalible": false
-            }
-        ]
-    },
-    {
         "id": 38,
         "category": 13,
         "title": "Кроссовки для девчонок",
@@ -510,33 +457,6 @@
         "sizes": [
             {
                 "size": "16 US",
-                "avalible": true
-            },
-            {
-                "size": "18 US",
-                "avalible": false
-            }
-        ]
-    },
-    {
-        "id": 39,
-        "category": 15,
-        "title": "Кроссовки для маленьких девчонок",
-        "images": [
-            "http://lst63.ru/catalog/zima/3451-New-balance-580-1.jpg",
-            "https://images.ua.prom.st/966399161_w640_h640_cid2204173_pid610965840-f9005cd4.jpg"
-        ],
-        "sku": "1000019",
-        "manufacturer": "New Balance",
-        "color": "Розовый",
-        "material": "Кожа",
-        "reason": "Спорт",
-        "season": "Лето",
-        "heelSize": "2 см.",
-        "price": 5800,
-        "sizes": [
-            {
-                "size": "8 US",
                 "avalible": true
             },
             {
@@ -628,60 +548,6 @@
         ]
     },
     {
-        "id": 43,
-        "category": 13,
-        "title": "Лодочки",
-        "images": [
-            "https://s.estro.ua/static/content/thumbs/fu47kk/1740-1160/0f/39/0f398e5cdd787c1a72a4e23b85876b1b.jpeg",
-            "http://irecommend.ru/sites/default/files/product-images/300470/RogFNLoZyVkv39FaOdIrg.JPG"
-        ],
-        "sku": "1000023",
-        "manufacturer": "Estro",
-        "color": "Красный",
-        "material": "Лак",
-        "reason": "Высокая мода",
-        "season": "Лето",
-        "heelSize": "9 см.",
-        "price": 1200,
-        "sizes": [
-            {
-                "size": "14 US",
-                "avalible": true
-            },
-            {
-                "size": "16 US",
-                "avalible": false
-            }
-        ]
-    },
-    {
-        "id": 44,
-        "category": 13,
-        "title": "Рыжики",
-        "images": [
-            "https://assets.superbalistcdn.co.za/798x1150/filters:quality(75):format(jpg)/536077/original.jpg",
-            "https://media.6thstreet.com/media/catalog/product/cache/image/690x600/2372a6de252aa4012d7beb4e3d8adacd/2/0/20110803-stessy-orange-760x850-5.jpg"
-        ],
-        "sku": "1000024",
-        "manufacturer": "ALDO",
-        "color": "Оранжевый",
-        "material": "Замша",
-        "reason": "Высокая мода",
-        "season": "Лето",
-        "heelSize": "9 см.",
-        "price": 4800,
-        "sizes": [
-            {
-                "size": "12 US",
-                "avalible": true
-            },
-            {
-                "size": "16 US",
-                "avalible": false
-            }
-        ]
-    },
-    {
         "id": 45,
         "category": 13,
         "title": "Диор в рубчик",
@@ -758,33 +624,6 @@
             },
             {
                 "size": "18 US",
-                "avalible": false
-            }
-        ]
-    },
-    {
-        "id": 48,
-        "category": 13,
-        "title": "LOVE",
-        "images": [
-            "https://hypb.imgix.net/wp-content/blogs.dir/6/files/2017/09/dior-amour-pumps-1.jpg?q=75&w=800&fit=max&auto=compress%2Cformat",
-            "http://www.fashionela.net/wp-content/uploads/2017/09/dior-pumps-fashionela.jpg"
-        ],
-        "sku": "1000028",
-        "manufacturer": "Dior",
-        "color": "Черный",
-        "material": "Замша",
-        "reason": "Высокая мода",
-        "season": "Лето",
-        "heelSize": "7 см.",
-        "price": 8000,
-        "sizes": [
-            {
-                "size": "14 US",
-                "avalible": true
-            },
-            {
-                "size": "16 US",
                 "avalible": false
             }
         ]

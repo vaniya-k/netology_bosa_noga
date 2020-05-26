@@ -448,6 +448,10 @@ section {
   min-height: 600px;
 }
 
+.card {
+  margin-bottom: 30px;
+}
+
 .catalog-categories {
   font-size: 1.3rem;
   margin-bottom: 2em;
